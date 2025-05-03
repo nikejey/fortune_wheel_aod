@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Сталкерская Рулетка</title>
+  <style>
+    @font-face {
+  font-family: "Underdog", system-ui;
+  src: url('https://fonts.googleapis.com/css2?family=Underdog&display=swap') format('truetype');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Underdog", system-ui;
+  background: url('https://r4.wallpaperflare.com/wallpaper/322/622/419/helicopter-chernobyl-stalker-stalker-area-hd-wallpaper-25b976dc6f94a457b66046cf7843cb4b.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #c0c0c0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.wheel-wrapper {
+  position: relative;
+  width: 600px;
+  height: 600px;
+}
+
+.wheel-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 10px solid #444;
+  overflow: hidden;
+  box-shadow: 0 0 20px #000;
+}
+
+#wheel {
+  width: 100%;
+  height: 100%;
+  transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  z-index: 1000;
+}
+
+.arrow img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.8); 
+  padding: 20px;
+  border: 2px solid #555;
+  border-radius: 10px;
+  width: 280px;
+  box-shadow: 0 0 15px #000;
+  backdrop-filter: blur(5px); 
+  color: rgb(172, 175, 172); 
+}
+
+#spin {
+  padding: 15px 30px;
+  background-color: #111;
+  border: 2px solid #666;
+  color: #c0c0c0;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Underdog", system-ui;
+  text-transform: uppercase;
+}
+
+#spin:hover {
+  background-color: #333;
+}
+
+#result {
+  font-size: 18px;
+  text-shadow: 0 0 5px #000;
+  font-family: "Underdog", system-ui;
+  text-align: center;
+}
+  </style>
+</head>
+<body>
+  <div class="main">
+    <div class="wheel-wrapper">
+      <div class="wheel-container">
+        <canvas id="wheel"></canvas>
+      </div>
+      <div class="arrow">
+        <img src="https://i.ibb.co/SX9pHbzn/left.png" alt="Стрелка">
+      </div>
+    </div>
+    <div class="side-panel">
+      <button id="spin">Крутить</button>
+      <div id="result">Ваш выигрыш появится здесь</div>
+
+
+      
+    </div>
+  </div>
+
+  <script>
+    const prizes = [
+      "Рюкзак на 120 литров",
+      "Перчатки",
+       "Водка",
+        "Чупа-Чупс",
+         "Шкаф Деревянный",
+      "Покрутить Рулетку ещё два раза",
+       "Шприц на Стамину",
+        "Не повезло :(",
+      "Сапоги",
+       "АКМ фулл-обвес",
+        "150 тысяч рублей",
+         "Шкаф для оружия",
+      "Пачка патронов 7.62x39",
+       "Шприц 'Вытяжка из грибов' [2 штуки]",
+        "Шприц 'Рябиновка' [2 штуки]",
+      "Шприц 'Чертовка' [2 штуки]",
+       "Оружейный ремень",
+        "Обычный шкаф",
+      "Детектор 'Медведь'",
+       "Шприц 'Промедол'",
+        "Контейнер для артефактов"
+    ];
+
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    canvas.width = 600;
+    canvas.height = 600;
+
+    const center = { x: 300, y: 300 };
+    const radius = 300;
+    const segmentAngle = 2 * Math.PI / prizes.length;
+
+    function drawWheel() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < prizes.length; i++) {
+        const startAngle = i * segmentAngle;
+        const endAngle = startAngle + segmentAngle;
+        ctx.beginPath();
+        ctx.moveTo(center.x, center.y);
+        ctx.arc(center.x, center.y, radius, startAngle, endAngle);
+        ctx.fillStyle = i % 2 === 0 ? "#333" : "#555";
+        ctx.fill();
+        ctx.stroke();
+        ctx.save();
+        ctx.translate(center.x, center.y);
+        ctx.rotate(startAngle + segmentAngle / 2);
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#fff";
+        ctx.font = "16px 'S.T.A.L.K.E.R', sans-serif";
+        ctx.fillText(prizes[i], radius - 150, 5);
+        ctx.restore();
+      }
+    }
+
+    drawWheel();
+
+    const spinButton = document.getElementById("spin");
+    const resultDiv = document.getElementById("result");
+
+    const angle = document.getElementById('angle');
+    let currentAngle = 0;
+    let timesSpinned = 0; 
+
+    spinButton.addEventListener("click", () => {
+      timesSpinned += 1;
+      const randomSegment = Math.floor(Math.random() * prizes.length) + 1;
+      console.log(randomSegment);
+      console.log(prizes[randomSegment]);
+
+      const spinsCount = 3; 
+      currentAngle = timesSpinned * 360 * spinsCount + 360 / 21 * randomSegment;
+      canvas.style.transform = `rotate(${-currentAngle}deg)`;
+
+      setTimeout(() => {
+        resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prizes[randomSegment - 1]}`;
+      }, 5100);
+    });
+  </script>
+</body>
+</html>
