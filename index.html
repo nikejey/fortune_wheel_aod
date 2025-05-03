@@ -2,274 +2,374 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Сталкерская Рулетка</title>
+  <title>Ведьмачья Рулетка</title>
   <style>
     @font-face {
-      font-family: "Underdog", system-ui;
-      src: url('https://fonts.googleapis.com/css2?family=Underdog&display=swap') format('truetype');
-    }
+  font-family: "Arsenal SC", system-ui;
+  src: url('https://fonts.googleapis.com/css2?family=Arsenal+SC&display=swap') format('truetype');
+}
 
-    @font-face {
-      font-family: 'Jura';
-      src: url('https://fonts.googleapis.com/css2?family=Jura:wght@400;500;600&display=swap') format('truetype');
-    }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Arsenal SC", system-ui;
+  background: url('https://i.ibb.co/yFPJ1BsW/vedmakruletka.png') no-repeat center center fixed;
+  background-size: cover;
+  color: #c0c0c0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Jura", system-ui;
-      background: url('https://r4.wallpaperflare.com/wallpaper/322/622/419/helicopter-chernobyl-stalker-stalker-area-hd-wallpaper-25b976dc6f94a457b66046cf7843cb4b.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #c0c0c0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
-    .main {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 50px;
-    }
+.wheel-wrapper {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+}
 
-    .wheel-wrapper {
-      position: relative;
-      width: 600px;
-      height: 600px;
-    }
+.wheel-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 10px solid #3d2424c7;
+  overflow: hidden;
+  box-shadow: 0 0 20px #524747cb;
+}
 
-    .wheel-container {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 10px solid #2a2a2a;
-      overflow: hidden;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-      background: rgba(0, 0, 0, 0.3);
-    }
+#wheel {
+  width: 100%;
+  height: 100%;
+  transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+}
 
-    #wheel {
-      width: 100%;
-      height: 100%;
-      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
-    }
+.arrow {
+  position: absolute;
+  top: 50%;
+  right: -50px;
+  transform: translateY(-50%);
+  width: 100px;
+  height: 100px;
+  z-index: 1000;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.7));
+  transition: transform 0.1s ease;
+}
 
-    .arrow {
-      position: absolute;
-      top: 50%;
-      right: -40px;
-      transform: translateY(-50%);
-      width: 60px;
-      height: 60px;
-      z-index: 1000;
-    }
+.arrow.shake {
+  animation: shake 0.5s ease;
+}
 
-    .arrow img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
+@keyframes shake {
+  0%, 100% { transform: translateY(-50%); }
+  25% { transform: translateY(-55%); }
+  50% { transform: translateY(-45%); }
+  75% { transform: translateY(-55%); }
+}
 
-    .side-panel {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      background: rgba(0, 0, 0, 0.8); 
-      padding: 20px;
-      border: 2px solid #555;
-      border-radius: 10px;
-      width: 280px;
-      box-shadow: 0 0 15px #000;
-      backdrop-filter: blur(5px); 
-      color: rgb(172, 175, 172); 
-    }
+.arrow img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
-    .classnames-panel {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.8);
-      padding: 15px 30px;
-      border: 2px solid #555;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #000;
-      backdrop-filter: blur(5px);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+/* стилёк панельки */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: rgba(48, 31, 31, 0.8);
+  padding: 20px;
+  border: 2px solid #634f4fb9;
+  border-radius: 10px;
+  width: 280px;
+  box-shadow: 0 0 15px #292323;
+  backdrop-filter: blur(5px);
+  color: rgb(172, 175, 172);
+  position: absolute;
+  right: 0;
+}
 
-    .classnames-panel:hover {
-      background: rgba(0, 0, 0, 0.9);
-      border-color: #666;
-    }
+#spin {
+  padding: 15px 30px;
+  background-color: #302222;
+  border: 2px solid #7c5e5e;
+  color: #c0c0c0;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Arsenal SC", system-ui;
+  text-transform: uppercase;
+}
 
-    .classnames-panel a {
-      color: rgb(172, 175, 172);
-      text-decoration: none;
-      font-size: 18px;
-      font-family: "Jura", system-ui;
-    }
+#spin:hover {
+  background-color: #312222c2;
+}
 
-    #spin {
-      padding: 15px 30px;
-      background-color: #111;
-      border: 2px solid #666;
-      color: #c0c0c0;
-      font-size: 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-family: "Underdog", system-ui;
-      text-transform: uppercase;
-    }
+#result {
+  font-size: 18px;
+  text-shadow: 0 0 5px #4e2f2fbb;
+  font-family: "Arsenal SC", system-ui;
+  text-align: center;
+  transition: all 0.3s ease;
+}
 
-    #spin:hover {
-      background-color: #333;
-    }
+#result.highlight {
+  color: #d6b27e;
+  text-shadow: 0 0 10px #d6b27e;
+  transform: scale(1.1);
+}
 
-    #result {
-      font-size: 18px;
-      text-shadow: 0 0 5px #000;
-      font-family: "Underdog", system-ui;
-      text-align: center;
-    }
+.classnames-link {
+  color: #c0c0c0;
+  text-decoration: none;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-family: "Arsenal SC", system-ui;
+  transition: color 0.3s ease;
+  text-shadow: 0 0 5px #4e2f2fbb;
+}
 
-    .history-panel {
-      display: flex;
-      flex-direction: column;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 20px;
-      border: 2px solid #555;
-      border-radius: 10px;
-      width: 280px;
-      box-shadow: 0 0 15px #000;
-      backdrop-filter: blur(5px);
-      color: rgb(172, 175, 172);
-      max-height: 400px;
-      overflow-y: auto;
-    }
+.classnames-link:hover {
+  color: #d6b27e;
+}
 
-    .history-panel h3 {
-      margin: 0 0 15px 0;
-      text-align: center;
-      font-size: 20px;
-      color: #c0c0c0;
-    }
+.history-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  background: rgba(48, 31, 31, 0.8);
+  padding: 20px;
+  border: 2px solid #634f4fb9;
+  border-radius: 10px;
+  width: 280px;
+  min-height: 200px;
+  max-height: 600px;
+  box-shadow: 0 0 15px #292323;
+  backdrop-filter: blur(5px);
+  color: rgb(172, 175, 172);
+  overflow-y: auto;
+  position: absolute;
+  left: 0;
+  transition: height 0.3s ease;
+}
 
-    .history-list {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
+.history-title {
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-shadow: 0 0 5px #4e2f2fbb;
+}
 
-    .history-list li {
-      padding: 8px 0;
-      border-bottom: 1px solid #444;
-      font-size: 16px;
-    }
+.history-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+}
 
-    .history-list li:last-child {
-      border-bottom: none;
-    }
+.history-item {
+  padding: 10px;
+  border-bottom: 1px solid #634f4fb9;
+  font-size: 16px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.clear-history {
+  padding: 10px 20px;
+  background-color: #302222;
+  border: 2px solid #7c5e5e;
+  color: #c0c0c0;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Arsenal SC", system-ui;
+  text-transform: uppercase;
+  margin-top: auto;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.clear-history:hover {
+  background-color: #312222c2;
+}
+
+.classnames-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: rgba(48, 31, 31, 0.8);
+  padding: 20px;
+  border: 2px solid #634f4fb9;
+  border-radius: 10px;
+  width: 280px;
+  box-shadow: 0 0 15px #292323;
+  backdrop-filter: blur(5px);
+  color: rgb(172, 175, 172);
+  position: absolute;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+}
   </style>
 </head>
 <body>
   <div class="main">
     <div class="history-panel">
-      <h3>История выигрышей</h3>
-      <ul class="history-list" id="historyList"></ul>
+      <div class="history-title">История выигрышей</div>
+      <ul class="history-list">
+        <!-- история выигрышей будет добавляться здесь -->
+      </ul>
+      <button class="clear-history">Очистить историю</button>
     </div>
     <div class="wheel-wrapper">
       <div class="wheel-container">
         <canvas id="wheel"></canvas>
       </div>
       <div class="arrow">
-        <img src="https://i.ibb.co/SX9pHbzn/left.png" alt="Стрелка">
+        <img src="https://i.ibb.co/B5Z9BSpJ/image-from-rawpixel-id-13935835-png.png" alt="Стрелка">
       </div>
     </div>
     <div class="side-panel">
       <button id="spin">Крутить</button>
       <div id="result">Ваш выигрыш появится здесь</div>
     </div>
-  </div>
-  <div class="classnames-panel">
-    <a href="https://docs.google.com/document/d/1NumbqNehLySVSfW8lEH0ZIix6tjqtmtG_9gtuYehPPk/edit?tab=t.0#heading=h.m8e09obwpau9" target="_blank">Список класснеймов</a>
+    <div class="classnames-panel">
+      <a href="https://docs.google.com/document/d/1_2DCAa3PAqP2XjQwCYtNs0SxiVLuPNgCzAG-VLJcbQY/edit?tab=t.0#heading=h.rll3cbyzyxml" target="_blank" class="classnames-link">Список класснеймов</a>
+    </div>
   </div>
 
   <script>
     const prizes = [
-      "Рюкзак на 120 литров",
-      "Перчатки",
-       "Водка",
-        "Чупа-Чупс",
-         "Шкаф Деревянный",
-      "Покрутить Рулетку ещё два раза",
-       "Шприц на Стамину",
-        "Не повезло :(",
-      "Сапоги",
-       "АКМ фулл-обвес",
-        "150 тысяч рублей",
-         "Шкаф для оружия",
-      "Пачка патронов 7.62x39",
-       "Шприц 'Вытяжка из грибов' [2 штуки]",
-        "Шприц 'Рябиновка' [2 штуки]",
-      "Шприц 'Чертовка' [2 штуки]",
-       "Оружейный ремень",
-        "Обычный шкаф",
-      "Детектор 'Медведь'",
-       "Шприц 'Промедол'",
-        "Контейнер для артефактов"
+    "10 оренов",
+    "Кодеиновая выдержка",
+    "Нильфгаардская лимонная настойка",
+    "Топовый ремнабор кузнеца",
+    "Катцбергер в стальном улучшении",
+    "Топовый шлем Хундсгугель",
+    "Пика в мельхиоровом улучшении",
+    "Не повезло",
+    "Стеганые шоссы с наколенниками",
+    "Мешочек флоренов",
+    "Моргенштерн в титановом улучшении",
+    "Алхимический сундучок",
+    "Прокрутить рулетку еще два раза",
+    "Средниий швейный набор",
+    "Военная палатка",
+    "Шприц хилка на 100 ед",
+    "Рябиновка 1 шприц",
+    "Отвар Тролльский Эль",
+    "Любовное зелье",
+    "Кольчужный койф"
     ];
 
     const canvas = document.getElementById("wheel");
     const ctx = canvas.getContext("2d");
-    canvas.width = 600;
-    canvas.height = 600;
+    canvas.width = 720;
+    canvas.height = 720;
 
-    const center = { x: 300, y: 300 };
-    const radius = 300;
+    const center = { x: 360, y: 360 };
+    const radius = 360;
     const segmentAngle = 2 * Math.PI / prizes.length;
 
     function drawWheel() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < prizes.length; i++) {
-        const startAngle = i * segmentAngle;
-        const endAngle = startAngle + segmentAngle;
-        ctx.beginPath();
-        ctx.moveTo(center.x, center.y);
-        ctx.arc(center.x, center.y, radius, startAngle, endAngle);
-        ctx.fillStyle = i % 2 === 0 ? "#2a2a2a" : "#3a3a3a";
-        ctx.fill();
-        ctx.strokeStyle = "#444";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        ctx.save();
-        ctx.translate(center.x, center.y);
-        ctx.rotate(startAngle + segmentAngle / 2);
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#fff";
-        ctx.font = "16px 'Jura', sans-serif";
-        ctx.fillText(prizes[i], radius - 150, 5);
-        ctx.restore();
-      }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < prizes.length; i++) {
+    const startAngle = i * segmentAngle;
+    const endAngle = startAngle + segmentAngle;
+    ctx.beginPath();
+    ctx.moveTo(center.x, center.y);
+    ctx.arc(center.x, center.y, radius, startAngle, endAngle);
+    
+    // новая града на каждый сектор
+    const gradient = ctx.createLinearGradient(
+      center.x, center.y, 
+      center.x + Math.cos(startAngle) * radius, 
+      center.y + Math.sin(startAngle) * radius
+    );
+    if (i % 2 === 0) {
+      gradient.addColorStop(0, "#8b4c39"); // красно-коричневый
+      gradient.addColorStop(1, "#c49e8b"); // пастельно-бежевый
+    } else {
+      gradient.addColorStop(0, "#6b2f24"); // темно-коричневый
+      gradient.addColorStop(1, "#a37b6e"); // мягкий кофейный
     }
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    ctx.stroke();
+    ctx.save();
+    ctx.translate(center.x, center.y);
+    ctx.rotate(startAngle + segmentAngle / 2);
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#d6b27e"; // светлый текст
+    ctx.shadowColor = "#5c2b2b"; // тень текста
+    ctx.shadowBlur = 8;
+    
+    // вычисляю размер шрифта в зависимости от расстояния от центра
+    const distanceFromCenter = radius - 180; // увеличиваю расстояние для большего размера
+    const fontSize = 12 + (distanceFromCenter / 40); // увеличиваю базовый размер и коэффициент
+    ctx.font = `bold ${fontSize}px 'Arsenal SC', sans-serif`; // добавляю bold
+    ctx.fillText(prizes[i], distanceFromCenter, 5);
+    
+    ctx.restore();
+  }
+}
 
     drawWheel();
 
     const spinButton = document.getElementById("spin");
     const resultDiv = document.getElementById("result");
+    const historyList = document.querySelector('.history-list');
+    const clearHistoryButton = document.querySelector('.clear-history');
 
     const angle = document.getElementById('angle');
     let currentAngle = 0;
     let timesSpinned = 0; 
 
-    const historyList = document.getElementById("historyList");
-    let history = [];
+    function addToHistory(prize) {
+      const historyItem = document.createElement('li');
+      historyItem.className = 'history-item';
+      historyItem.textContent = `${historyList.children.length + 1}. ${prize}`;
+      historyList.appendChild(historyItem);
+    }
+
+    clearHistoryButton.addEventListener('click', () => {
+      historyList.innerHTML = '';
+    });
 
     spinButton.addEventListener("click", () => {
       timesSpinned += 1;
@@ -281,41 +381,27 @@
       currentAngle = timesSpinned * 360 * spinsCount + 360 / 21 * randomSegment;
       canvas.style.transform = `rotate(${-currentAngle}deg)`;
 
-      const prize = prizes[randomSegment - 1];
+      // добавка анимации дрожания стрелки
+      const arrow = document.querySelector('.arrow');
+      setTimeout(() => {
+        arrow.classList.add('shake');
+        setTimeout(() => {
+          arrow.classList.remove('shake');
+        }, 500);
+      }, 5000);
 
       setTimeout(() => {
+        const prize = prizes[randomSegment - 1];
         resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
-        history.unshift(prize);
-        updateHistory();
+        resultDiv.classList.add('highlight');
+        addToHistory(prize);
+        
+        // убираю подсветку через 2 секунды
+        setTimeout(() => {
+          resultDiv.classList.remove('highlight');
+        }, 2000);
       }, 5100);
     });
-
-    function updateHistory() {
-      historyList.innerHTML = '';
-      history.forEach((prize, index) => {
-        const li = document.createElement('li');
-        li.textContent = `${index + 1}. ${prize}`;
-        historyList.appendChild(li);
-      });
-    }
-
-    // Добавляем кнопку очистки истории
-    const clearHistoryButton = document.createElement('button');
-    clearHistoryButton.textContent = 'Очистить историю';
-    clearHistoryButton.style.marginTop = '15px';
-    clearHistoryButton.style.padding = '8px 15px';
-    clearHistoryButton.style.backgroundColor = '#111';
-    clearHistoryButton.style.border = '2px solid #666';
-    clearHistoryButton.style.color = '#c0c0c0';
-    clearHistoryButton.style.borderRadius = '5px';
-    clearHistoryButton.style.cursor = 'pointer';
-    clearHistoryButton.style.fontFamily = '"Jura", system-ui';
-    clearHistoryButton.addEventListener('click', () => {
-      history = [];
-      updateHistory();
-    });
-
-    document.querySelector('.history-panel').appendChild(clearHistoryButton);
   </script>
 </body>
 </html>
