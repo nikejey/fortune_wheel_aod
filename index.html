@@ -5,107 +5,139 @@
   <title>Сталкерская Рулетка</title>
   <style>
     @font-face {
-  font-family: "Underdog", system-ui;
-  src: url('https://fonts.googleapis.com/css2?family=Underdog&display=swap') format('truetype');
-}
+      font-family: "Underdog", system-ui;
+      src: url('https://fonts.googleapis.com/css2?family=Underdog&display=swap') format('truetype');
+    }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Underdog", system-ui;
-  background: url('https://r4.wallpaperflare.com/wallpaper/322/622/419/helicopter-chernobyl-stalker-stalker-area-hd-wallpaper-25b976dc6f94a457b66046cf7843cb4b.jpg') no-repeat center center fixed;
-  background-size: cover;
-  color: #c0c0c0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    @font-face {
+      font-family: 'Jura';
+      src: url('https://fonts.googleapis.com/css2?family=Jura:wght@400;500;600&display=swap') format('truetype');
+    }
 
-.main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 50px;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Jura", system-ui;
+      background: url('https://r4.wallpaperflare.com/wallpaper/322/622/419/helicopter-chernobyl-stalker-stalker-area-hd-wallpaper-25b976dc6f94a457b66046cf7843cb4b.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #c0c0c0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.wheel-wrapper {
-  position: relative;
-  width: 600px;
-  height: 600px;
-}
+    .main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+    }
 
-.wheel-container {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 10px solid #444;
-  overflow: hidden;
-  box-shadow: 0 0 20px #000;
-}
+    .wheel-wrapper {
+      position: relative;
+      width: 600px;
+      height: 600px;
+    }
 
-#wheel {
-  width: 100%;
-  height: 100%;
-  transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
-}
+    .wheel-container {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 10px solid #2a2a2a;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.3);
+    }
 
-.arrow {
-  position: absolute;
-  top: 50%;
-  right: -40px;
-  transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
-  z-index: 1000;
-}
+    #wheel {
+      width: 100%;
+      height: 100%;
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+    }
 
-.arrow img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+    .arrow {
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      z-index: 1000;
+    }
 
+    .arrow img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
 
-.side-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  background: rgba(0, 0, 0, 0.8); 
-  padding: 20px;
-  border: 2px solid #555;
-  border-radius: 10px;
-  width: 280px;
-  box-shadow: 0 0 15px #000;
-  backdrop-filter: blur(5px); 
-  color: rgb(172, 175, 172); 
-}
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      background: rgba(0, 0, 0, 0.8); 
+      padding: 20px;
+      border: 2px solid #555;
+      border-radius: 10px;
+      width: 280px;
+      box-shadow: 0 0 15px #000;
+      backdrop-filter: blur(5px); 
+      color: rgb(172, 175, 172); 
+    }
 
-#spin {
-  padding: 15px 30px;
-  background-color: #111;
-  border: 2px solid #666;
-  color: #c0c0c0;
-  font-size: 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-family: "Underdog", system-ui;
-  text-transform: uppercase;
-}
+    .classnames-panel {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px 30px;
+      border: 2px solid #555;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #000;
+      backdrop-filter: blur(5px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-#spin:hover {
-  background-color: #333;
-}
+    .classnames-panel:hover {
+      background: rgba(0, 0, 0, 0.9);
+      border-color: #666;
+    }
 
-#result {
-  font-size: 18px;
-  text-shadow: 0 0 5px #000;
-  font-family: "Underdog", system-ui;
-  text-align: center;
-}
+    .classnames-panel a {
+      color: rgb(172, 175, 172);
+      text-decoration: none;
+      font-size: 18px;
+      font-family: "Jura", system-ui;
+    }
+
+    #spin {
+      padding: 15px 30px;
+      background-color: #111;
+      border: 2px solid #666;
+      color: #c0c0c0;
+      font-size: 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-family: "Underdog", system-ui;
+      text-transform: uppercase;
+    }
+
+    #spin:hover {
+      background-color: #333;
+    }
+
+    #result {
+      font-size: 18px;
+      text-shadow: 0 0 5px #000;
+      font-family: "Underdog", system-ui;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -121,10 +153,10 @@ body {
     <div class="side-panel">
       <button id="spin">Крутить</button>
       <div id="result">Ваш выигрыш появится здесь</div>
-
-
-      
     </div>
+  </div>
+  <div class="classnames-panel">
+    <a href="https://docs.google.com/document/d/1NumbqNehLySVSfW8lEH0ZIix6tjqtmtG_9gtuYehPPk/edit?tab=t.0#heading=h.m8e09obwpau9" target="_blank">Список класснеймов</a>
   </div>
 
   <script>
@@ -169,15 +201,17 @@ body {
         ctx.beginPath();
         ctx.moveTo(center.x, center.y);
         ctx.arc(center.x, center.y, radius, startAngle, endAngle);
-        ctx.fillStyle = i % 2 === 0 ? "#333" : "#555";
+        ctx.fillStyle = i % 2 === 0 ? "#2a2a2a" : "#3a3a3a";
         ctx.fill();
+        ctx.strokeStyle = "#444";
+        ctx.lineWidth = 2;
         ctx.stroke();
         ctx.save();
         ctx.translate(center.x, center.y);
         ctx.rotate(startAngle + segmentAngle / 2);
         ctx.textAlign = "center";
         ctx.fillStyle = "#fff";
-        ctx.font = "16px 'S.T.A.L.K.E.R', sans-serif";
+        ctx.font = "16px 'Jura', sans-serif";
         ctx.fillText(prizes[i], radius - 150, 5);
         ctx.restore();
       }
