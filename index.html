@@ -138,10 +138,52 @@
       font-family: "Underdog", system-ui;
       text-align: center;
     }
+
+    .history-panel {
+      display: flex;
+      flex-direction: column;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border: 2px solid #555;
+      border-radius: 10px;
+      width: 280px;
+      box-shadow: 0 0 15px #000;
+      backdrop-filter: blur(5px);
+      color: rgb(172, 175, 172);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .history-panel h3 {
+      margin: 0 0 15px 0;
+      text-align: center;
+      font-size: 20px;
+      color: #c0c0c0;
+    }
+
+    .history-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .history-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #444;
+      font-size: 16px;
+    }
+
+    .history-list li:last-child {
+      border-bottom: none;
+    }
   </style>
 </head>
 <body>
   <div class="main">
+    <div class="history-panel">
+      <h3>История выигрышей</h3>
+      <ul class="history-list" id="historyList"></ul>
+    </div>
     <div class="wheel-wrapper">
       <div class="wheel-container">
         <canvas id="wheel"></canvas>
@@ -226,6 +268,9 @@
     let currentAngle = 0;
     let timesSpinned = 0; 
 
+    const historyList = document.getElementById("historyList");
+    let history = [];
+
     spinButton.addEventListener("click", () => {
       timesSpinned += 1;
       const randomSegment = Math.floor(Math.random() * prizes.length) + 1;
@@ -236,10 +281,41 @@
       currentAngle = timesSpinned * 360 * spinsCount + 360 / 21 * randomSegment;
       canvas.style.transform = `rotate(${-currentAngle}deg)`;
 
+      const prize = prizes[randomSegment - 1];
+      history.unshift(prize);
+      updateHistory();
+
       setTimeout(() => {
-        resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prizes[randomSegment - 1]}`;
+        resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
       }, 5100);
     });
+
+    function updateHistory() {
+      historyList.innerHTML = '';
+      history.forEach((prize, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${prize}`;
+        historyList.appendChild(li);
+      });
+    }
+
+    // Добавляем кнопку очистки истории
+    const clearHistoryButton = document.createElement('button');
+    clearHistoryButton.textContent = 'Очистить историю';
+    clearHistoryButton.style.marginTop = '15px';
+    clearHistoryButton.style.padding = '8px 15px';
+    clearHistoryButton.style.backgroundColor = '#111';
+    clearHistoryButton.style.border = '2px solid #666';
+    clearHistoryButton.style.color = '#c0c0c0';
+    clearHistoryButton.style.borderRadius = '5px';
+    clearHistoryButton.style.cursor = 'pointer';
+    clearHistoryButton.style.fontFamily = '"Jura", system-ui';
+    clearHistoryButton.addEventListener('click', () => {
+      history = [];
+      updateHistory();
+    });
+
+    document.querySelector('.history-panel').appendChild(clearHistoryButton);
   </script>
 </body>
 </html>
