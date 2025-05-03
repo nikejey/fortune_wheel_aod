@@ -282,11 +282,11 @@
       canvas.style.transform = `rotate(${-currentAngle}deg)`;
 
       const prize = prizes[randomSegment - 1];
-      history.unshift(prize);
-      updateHistory();
 
       setTimeout(() => {
         resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
+        history.unshift(prize);
+        updateHistory();
       }, 5100);
     });
 
