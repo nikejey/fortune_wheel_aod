@@ -263,30 +263,34 @@
       const startAngle = winningIndex * segmentAngle;
       const endAngle = startAngle + segmentAngle;
       
-      // Сначала рисуем подсветку сектора
+      // Добавляем свечение
+      ctx.shadowColor = '#FFD700';
+      ctx.shadowBlur = 20;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      
+      // Рисуем подсветку сектора
       ctx.beginPath();
       ctx.moveTo(center.x, center.y);
       ctx.arc(center.x, center.y, radius, startAngle, endAngle);
-      ctx.fillStyle = "rgba(255, 215, 0, 0.2)";
+      ctx.fillStyle = "rgba(255, 215, 0, 0.15)";
       ctx.fill();
       
-      // Добавляем обводку сектора
-      ctx.strokeStyle = "#FFD700";
-      ctx.lineWidth = 3;
-      ctx.stroke();
+      // Сбрасываем тень для сектора
+      ctx.shadowBlur = 0;
       
-      // Рисуем текст с тенью для лучшей читаемости
+      // Рисуем текст
       ctx.save();
       ctx.translate(center.x, center.y);
       ctx.rotate(startAngle + segmentAngle / 2);
       ctx.textAlign = "center";
       
-      // Добавляем тень для текста
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-      ctx.shadowBlur = 4;
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
+      // Добавляем контур для текста
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.8)';
+      ctx.lineWidth = 3;
+      ctx.strokeText(prizes[winningIndex], radius - 150, 5);
       
+      // Рисуем сам текст
       ctx.fillStyle = "#FFD700";
       ctx.font = "bold 16px 'Jura', sans-serif";
       ctx.fillText(prizes[winningIndex], radius - 150, 5);
