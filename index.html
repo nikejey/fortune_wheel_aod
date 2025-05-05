@@ -279,20 +279,13 @@
       // Сбрасываем тень для сектора
       ctx.shadowBlur = 0;
       
-      // Рисуем текст
+      // Рисуем текст обычным белым цветом
       ctx.save();
       ctx.translate(center.x, center.y);
       ctx.rotate(startAngle + segmentAngle / 2);
       ctx.textAlign = "center";
-      
-      // Добавляем контур для текста
-      ctx.strokeStyle = 'rgba(0, 0, 0, 0.8)';
-      ctx.lineWidth = 3;
-      ctx.strokeText(prizes[winningIndex], radius - 150, 5);
-      
-      // Рисуем сам текст
-      ctx.fillStyle = "#FFD700";
-      ctx.font = "bold 16px 'Jura', sans-serif";
+      ctx.fillStyle = "#fff";
+      ctx.font = "16px 'Jura', sans-serif";
       ctx.fillText(prizes[winningIndex], radius - 150, 5);
       ctx.restore();
     }
