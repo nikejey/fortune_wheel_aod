@@ -259,6 +259,26 @@
       }
     }
 
+    function highlightWinningSector(winningIndex) {
+      const startAngle = winningIndex * segmentAngle;
+      const endAngle = startAngle + segmentAngle;
+      
+      ctx.beginPath();
+      ctx.moveTo(center.x, center.y);
+      ctx.arc(center.x, center.y, radius, startAngle, endAngle);
+      ctx.fillStyle = "rgba(255, 215, 0, 0.3)";
+      ctx.fill();
+      
+      ctx.save();
+      ctx.translate(center.x, center.y);
+      ctx.rotate(startAngle + segmentAngle / 2);
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#FFD700";
+      ctx.font = "bold 16px 'Jura', sans-serif";
+      ctx.fillText(prizes[winningIndex], radius - 150, 5);
+      ctx.restore();
+    }
+
     drawWheel();
 
     const spinButton = document.getElementById("spin");
@@ -287,6 +307,14 @@
         resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
         history.unshift(prize);
         updateHistory();
+        
+        // Подсвечиваем выигрышный сектор
+        highlightWinningSector(randomSegment - 1);
+        
+        // Через 2 секунды возвращаем обычный вид колеса
+        setTimeout(() => {
+          drawWheel();
+        }, 2000);
       }, 5100);
     });
 
