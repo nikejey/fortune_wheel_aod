@@ -72,18 +72,6 @@
       object-fit: contain;
     }
 
-    @keyframes shake {
-      0% { transform: translateY(-50%) rotate(-10deg);}
-      20% { transform: translateY(-50%) rotate(10deg);}
-      40% { transform: translateY(-50%) rotate(-7deg);}
-      60% { transform: translateY(-50%) rotate(7deg);}
-      80% { transform: translateY(-50%) rotate(-3deg);}
-      100% { transform: translateY(-50%) rotate(0deg);}
-    }
-    .arrow.shake {
-      animation: shake 0.3s;
-    }
-
     .side-panel {
       display: flex;
       flex-direction: column;
@@ -200,7 +188,7 @@
       <div class="wheel-container">
         <canvas id="wheel"></canvas>
       </div>
-      <div class="arrow" id="arrow">
+      <div class="arrow">
         <img src="https://i.ibb.co/SX9pHbzn/left.png" alt="Стрелка">
       </div>
     </div>
@@ -275,58 +263,32 @@
 
     const spinButton = document.getElementById("spin");
     const resultDiv = document.getElementById("result");
-    const arrow = document.getElementById('arrow');
+
+    const angle = document.getElementById('angle');
     let currentAngle = 0;
     let timesSpinned = 0; 
+
     const historyList = document.getElementById("historyList");
     let history = [];
-    let spinning = false;
 
-    function spinWheel() {
-      if (spinning) return;
-      spinning = true;
+    spinButton.addEventListener("click", () => {
       timesSpinned += 1;
-      const randomSegment = Math.floor(Math.random() * prizes.length);
-      const spinsCount = 3;
-      const finalAngle = currentAngle + spinsCount * 360 + 360 / prizes.length * randomSegment;
-      const totalFrames = 150;
-      let frame = 0;
-      let prevSector = null;
+      const randomSegment = Math.floor(Math.random() * prizes.length) + 1;
+      console.log(randomSegment);
+      console.log(prizes[randomSegment]);
 
-      function animate() {
-        frame++;
-        const progress = frame / totalFrames;
-        const ease = 1 - Math.pow(1 - progress, 3); // плавное замедление
-        const current = currentAngle + (finalAngle - currentAngle) * ease;
-        canvas.style.transform = `rotate(${-current}deg)`;
+      const spinsCount = 3; 
+      currentAngle = timesSpinned * 360 * spinsCount + 360 / 21 * randomSegment;
+      canvas.style.transform = `rotate(${-currentAngle}deg)`;
 
-        // Определяем сектор
-        const normalized = (current % 360 + 360) % 360;
-        const sector = Math.floor((normalized) / (360 / prizes.length));
-        if (sector !== prevSector) {
-          arrow.classList.add('shake');
-          setTimeout(() => arrow.classList.remove('shake'), 250);
-          prevSector = sector;
-        }
+      const prize = prizes[randomSegment - 1];
 
-        if (frame < totalFrames) {
-          requestAnimationFrame(animate);
-        } else {
-          currentAngle = finalAngle % 360;
-          const prize = prizes[randomSegment];
-          setTimeout(() => {
-            resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
-            history.unshift(prize);
-            updateHistory();
-            spinning = false;
-          }, 300);
-        }
-      }
-      animate();
-    }
-
-    spinButton.removeEventListener("click", spinWheel);
-    spinButton.addEventListener("click", spinWheel);
+      setTimeout(() => {
+        resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
+        history.unshift(prize);
+        updateHistory();
+      }, 5100);
+    });
 
     function updateHistory() {
       historyList.innerHTML = '';
