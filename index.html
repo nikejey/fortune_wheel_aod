@@ -324,7 +324,13 @@
         spinSound.currentTime = 0;
         spinSound.play().catch(e => console.log('Ошибка воспроизведения звука:', e));
         
-        resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
+        // Меняем текст в зависимости от приза
+        if (prize === "Не повезло :(") {
+          resultDiv.textContent = `Очень жаль, Уажаемый сталкер, но, по стечению обстоятельств, НИКАК не зависящих от нас, вам ${prize}`;
+        } else {
+          resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
+        }
+        
         history.unshift(prize);
         updateHistory();
         
