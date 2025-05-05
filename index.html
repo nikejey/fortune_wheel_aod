@@ -307,11 +307,6 @@
     let history = [];
 
     spinButton.addEventListener("click", () => {
-      // Воспроизводим звук
-      const spinSound = document.getElementById('spinSound');
-      spinSound.currentTime = 0; // Сбрасываем время воспроизведения
-      spinSound.play().catch(e => console.log('Ошибка воспроизведения звука:', e));
-      
       timesSpinned += 1;
       const randomSegment = Math.floor(Math.random() * prizes.length) + 1;
       console.log(randomSegment);
@@ -324,6 +319,11 @@
       const prize = prizes[randomSegment - 1];
 
       setTimeout(() => {
+        // Воспроизводим звук при выпадении приза
+        const spinSound = document.getElementById('spinSound');
+        spinSound.currentTime = 0;
+        spinSound.play().catch(e => console.log('Ошибка воспроизведения звука:', e));
+        
         resultDiv.textContent = `Поздравляю! Ваш выигрыш: ${prize}`;
         history.unshift(prize);
         updateHistory();
