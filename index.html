@@ -371,7 +371,7 @@
 
     // Создаем кнопку копирования истории
     const copyHistoryButton = document.createElement('button');
-    copyHistoryButton.textContent = 'Копировать список';
+    copyHistoryButton.innerHTML = '<img src="https://i.ibb.co/kV0sCVg8/favpng-6667dd11218d05142ff8cd877c680a08.png" alt="Копировать" style="width: 20px; height: 20px;">';
     copyHistoryButton.style.marginTop = '15px';
     copyHistoryButton.style.marginLeft = '10px';
     copyHistoryButton.style.padding = '8px 15px';
@@ -385,10 +385,10 @@
     copyHistoryButton.addEventListener('click', () => {
       const historyText = history.map((prize, index) => `${index + 1}. ${prize}`).join('\n');
       navigator.clipboard.writeText(historyText).then(() => {
-        const originalText = copyHistoryButton.textContent;
-        copyHistoryButton.textContent = 'Скопировано!';
+        const originalContent = copyHistoryButton.innerHTML;
+        copyHistoryButton.innerHTML = '✓';
         setTimeout(() => {
-          copyHistoryButton.textContent = originalText;
+          copyHistoryButton.innerHTML = originalContent;
         }, 2000);
       }).catch(err => {
         console.error('Ошибка при копировании:', err);
