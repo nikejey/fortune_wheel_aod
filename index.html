@@ -414,6 +414,7 @@
     clearHistoryButton.addEventListener('click', () => {
       history = [];
       updateHistory();
+      copyHistoryButton.style.display = 'none'; // Скрываем кнопку копирования при очистке
     });
   </script>
 </body>
