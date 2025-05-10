@@ -369,7 +369,34 @@
       updateHistory();
     });
 
+    // Создаем кнопку копирования истории
+    const copyHistoryButton = document.createElement('button');
+    copyHistoryButton.textContent = 'Копировать список';
+    copyHistoryButton.style.marginTop = '15px';
+    copyHistoryButton.style.marginLeft = '10px';
+    copyHistoryButton.style.padding = '8px 15px';
+    copyHistoryButton.style.backgroundColor = '#111';
+    copyHistoryButton.style.border = '2px solid #666';
+    copyHistoryButton.style.color = '#c0c0c0';
+    copyHistoryButton.style.borderRadius = '5px';
+    copyHistoryButton.style.cursor = 'pointer';
+    copyHistoryButton.style.fontFamily = '"Jura", system-ui';
+    
+    copyHistoryButton.addEventListener('click', () => {
+      const historyText = history.map((prize, index) => `${index + 1}. ${prize}`).join('\n');
+      navigator.clipboard.writeText(historyText).then(() => {
+        const originalText = copyHistoryButton.textContent;
+        copyHistoryButton.textContent = 'Скопировано!';
+        setTimeout(() => {
+          copyHistoryButton.textContent = originalText;
+        }, 2000);
+      }).catch(err => {
+        console.error('Ошибка при копировании:', err);
+      });
+    });
+
     document.querySelector('.history-panel').appendChild(clearHistoryButton);
+    document.querySelector('.history-panel').appendChild(copyHistoryButton);
   </script>
 </body>
 </html>
