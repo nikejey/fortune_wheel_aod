@@ -306,6 +306,59 @@
     const historyList = document.getElementById("historyList");
     let history = [];
 
+    // Создаем кнопку очистки истории
+    const clearHistoryButton = document.createElement('button');
+    clearHistoryButton.textContent = 'Очистить историю';
+    clearHistoryButton.style.marginTop = '15px';
+    clearHistoryButton.style.padding = '8px 15px';
+    clearHistoryButton.style.backgroundColor = '#111';
+    clearHistoryButton.style.border = '2px solid #666';
+    clearHistoryButton.style.color = '#c0c0c0';
+    clearHistoryButton.style.borderRadius = '5px';
+    clearHistoryButton.style.cursor = 'pointer';
+    clearHistoryButton.style.fontFamily = '"Jura", system-ui';
+    clearHistoryButton.addEventListener('click', () => {
+      history = [];
+      updateHistory();
+      copyHistoryButton.style.display = 'none';
+    });
+
+    // Добавляем кнопку очистки в панель истории
+    document.querySelector('.history-panel').appendChild(clearHistoryButton);
+
+    // Создаем кнопку копирования
+    const copyHistoryButton = document.createElement('button');
+    copyHistoryButton.innerHTML = '<img src="https://i.ibb.co/kV0sCVg8/favpng-6667dd11218d05142ff8cd877c680a08.png" alt="Копировать" style="width: 20px; height: 20px;">';
+    copyHistoryButton.style.padding = '5px';
+    copyHistoryButton.style.backgroundColor = '#111';
+    copyHistoryButton.style.border = '2px solid #666';
+    copyHistoryButton.style.color = '#c0c0c0';
+    copyHistoryButton.style.borderRadius = '5px';
+    copyHistoryButton.style.cursor = 'pointer';
+    copyHistoryButton.style.fontFamily = '"Jura", system-ui';
+    copyHistoryButton.style.display = 'none';
+    copyHistoryButton.style.position = 'absolute';
+    copyHistoryButton.style.top = '10px';
+    copyHistoryButton.style.left = '10px';
+    copyHistoryButton.style.width = '30px';
+    copyHistoryButton.style.height = '30px';
+    
+    copyHistoryButton.addEventListener('click', () => {
+      const historyText = history.map((prize, index) => `${index + 1}. ${prize}`).join('\n');
+      navigator.clipboard.writeText(historyText).then(() => {
+        const originalContent = copyHistoryButton.innerHTML;
+        copyHistoryButton.innerHTML = '✓';
+        setTimeout(() => {
+          copyHistoryButton.innerHTML = originalContent;
+        }, 2000);
+      }).catch(err => {
+        console.error('Ошибка при копировании:', err);
+      });
+    });
+
+    // Добавляем кнопку копирования в панель истории
+    document.querySelector('.history-panel').appendChild(copyHistoryButton);
+
     spinButton.addEventListener("click", () => {
       timesSpinned += 1;
       const randomSegment = Math.floor(Math.random() * prizes.length) + 1;
@@ -344,50 +397,6 @@
       }, 5100);
     });
 
-    const copyHistoryButton = document.createElement('button');
-    copyHistoryButton.innerHTML = '<img src="https://i.ibb.co/kV0sCVg8/favpng-6667dd11218d05142ff8cd877c680a08.png" alt="Копировать" style="width: 20px; height: 20px;">';
-    copyHistoryButton.style.padding = '5px';
-    copyHistoryButton.style.backgroundColor = '#111';
-    copyHistoryButton.style.border = '2px solid #666';
-    copyHistoryButton.style.color = '#c0c0c0';
-    copyHistoryButton.style.borderRadius = '5px';
-    copyHistoryButton.style.cursor = 'pointer';
-    copyHistoryButton.style.fontFamily = '"Jura", system-ui';
-    copyHistoryButton.style.display = 'none';
-    copyHistoryButton.style.position = 'absolute';
-    copyHistoryButton.style.top = '10px';
-    copyHistoryButton.style.left = '10px';
-    copyHistoryButton.style.width = '30px';
-    copyHistoryButton.style.height = '30px';
-    
-    copyHistoryButton.addEventListener('click', () => {
-      const historyText = history.map((prize, index) => `${index + 1}. ${prize}`).join('\n');
-      navigator.clipboard.writeText(historyText).then(() => {
-        const originalContent = copyHistoryButton.innerHTML;
-        copyHistoryButton.innerHTML = '✓';
-        setTimeout(() => {
-          copyHistoryButton.innerHTML = originalContent;
-        }, 2000);
-      }).catch(err => {
-        console.error('Ошибка при копировании:', err);
-      });
-    });
-
-    // Добавляем кнопку копирования в панель истории
-    document.querySelector('.history-panel').appendChild(copyHistoryButton);
-
-    // Создаем контейнер для кнопки очистки
-    const clearButtonContainer = document.createElement('div');
-    clearButtonContainer.style.display = 'flex';
-    clearButtonContainer.style.justifyContent = 'center';
-    clearButtonContainer.style.marginTop = '15px';
-
-    // Добавляем кнопку очистки в контейнер
-    clearButtonContainer.appendChild(clearHistoryButton);
-
-    // Добавляем контейнер в панель истории
-    document.querySelector('.history-panel').appendChild(clearButtonContainer);
-
     function updateHistory() {
       historyList.innerHTML = '';
       history.forEach((prize, index) => {
@@ -399,23 +408,6 @@
       // Показываем/скрываем кнопку копирования в зависимости от наличия истории
       copyHistoryButton.style.display = history.length > 0 ? 'block' : 'none';
     }
-
-    // Добавляем кнопку очистки истории
-    const clearHistoryButton = document.createElement('button');
-    clearHistoryButton.textContent = 'Очистить историю';
-    clearHistoryButton.style.marginTop = '15px';
-    clearHistoryButton.style.padding = '8px 15px';
-    clearHistoryButton.style.backgroundColor = '#111';
-    clearHistoryButton.style.border = '2px solid #666';
-    clearHistoryButton.style.color = '#c0c0c0';
-    clearHistoryButton.style.borderRadius = '5px';
-    clearHistoryButton.style.cursor = 'pointer';
-    clearHistoryButton.style.fontFamily = '"Jura", system-ui';
-    clearHistoryButton.addEventListener('click', () => {
-      history = [];
-      updateHistory();
-      copyHistoryButton.style.display = 'none'; // Скрываем кнопку копирования при очистке
-    });
   </script>
 </body>
 </html>
