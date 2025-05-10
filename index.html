@@ -387,6 +387,19 @@
     copyHistoryButton.style.height = '30px';
     copyHistoryButton.style.margin = '15px auto 0';
     
+    copyHistoryButton.addEventListener('click', () => {
+      const historyText = history.map((prize, index) => `${index + 1}. ${prize}`).join('\n');
+      navigator.clipboard.writeText(historyText).then(() => {
+        const originalContent = copyHistoryButton.innerHTML;
+        copyHistoryButton.innerHTML = '✓';
+        setTimeout(() => {
+          copyHistoryButton.innerHTML = originalContent;
+        }, 2000);
+      }).catch(err => {
+        console.error('Ошибка при копировании:', err);
+      });
+    });
+
     // Создаем контейнер для кнопок
     const buttonsContainer = document.createElement('div');
     buttonsContainer.style.display = 'flex';
