@@ -230,6 +230,30 @@
         "Контейнер для артефактов"
     ];
 
+    const classnames = {
+      "Рюкзак на 120 литров": "IMP_Bag_6ShBagT_",
+      "Перчатки": "...Gloves...",
+      "Водка": "DC_Food_Vodka",
+      "Чупа-Чупс": "DC_Food_Sosalka",
+      "Шкаф Деревянный": "OH_shifoner_dark_wood_Kit",
+      "Покрутить Рулетку ещё два раза": "",
+      "Шприц на Стамину": "GM_InjectStamina_1000",
+      "Не повезло :(": "",
+      "Сапоги": "JungleBoots_Black",
+      "АКМ фулл-обвес": "AKM Zenit",
+      "150 тысяч рублей": "MoneyRuble",
+      "Шкаф для оружия": "OH_box_metal_Kit",
+      "Пачка патронов 7.62x39": "Ammo_762x39",
+      "Шприц 'Вытяжка из грибов' [2 штуки]": "DC_Medicine_Gribsoup",
+      "Шприц 'Рябиновка' [2 штуки]": "DC_Medicine_Rabinovka",
+      "Шприц 'Чертовка' [2 штуки]": "DC_Medicine_Chertovka",
+      "Оружейный ремень": "DFRP_Belt_Gunsling",
+      "Обычный шкаф": "OHlocker_greyKit",
+      "Детектор 'Медведь'": "NH_DETECTOR_MEDVED",
+      "Шприц 'Промедол'": "DC_Medicine_Promedol",
+      "Контейнер для артефактов": "NH_PKA114_Green"
+    };
+
     const canvas = document.getElementById("wheel");
     const ctx = canvas.getContext("2d");
     canvas.width = 600;
@@ -359,6 +383,43 @@
     // Добавляем кнопку копирования в панель истории
     document.querySelector('.history-panel').appendChild(copyHistoryButton);
 
+    // Создаем кнопку копирования класснеймов
+    const copyClassnamesButton = document.createElement('button');
+    copyClassnamesButton.innerHTML = '<img src="https://i.ibb.co/kV0sCVg8/favpng-6667dd11218d05142ff8cd877c680a08.png" alt="Копировать класснеймы" style="width: 20px; height: 20px;">';
+    copyClassnamesButton.style.padding = '5px';
+    copyClassnamesButton.style.backgroundColor = '#111';
+    copyClassnamesButton.style.border = '2px solid #666';
+    copyClassnamesButton.style.color = '#c0c0c0';
+    copyClassnamesButton.style.borderRadius = '5px';
+    copyClassnamesButton.style.cursor = 'pointer';
+    copyClassnamesButton.style.fontFamily = '"Jura", system-ui';
+    copyClassnamesButton.style.display = 'none';
+    copyClassnamesButton.style.position = 'absolute';
+    copyClassnamesButton.style.top = '10px';
+    copyClassnamesButton.style.right = '10px';
+    copyClassnamesButton.style.width = '30px';
+    copyClassnamesButton.style.height = '30px';
+    
+    copyClassnamesButton.addEventListener('click', () => {
+      const classnamesList = history
+        .map(prize => classnames[prize])
+        .filter(classname => classname !== "")
+        .join("\n");
+      
+      navigator.clipboard.writeText(classnamesList).then(() => {
+        const originalContent = copyClassnamesButton.innerHTML;
+        copyClassnamesButton.innerHTML = '✓';
+        setTimeout(() => {
+          copyClassnamesButton.innerHTML = originalContent;
+        }, 2000);
+      }).catch(err => {
+        console.error('Ошибка при копировании:', err);
+      });
+    });
+
+    // Добавляем кнопку копирования класснеймов в панель истории
+    document.querySelector('.history-panel').appendChild(copyClassnamesButton);
+
     spinButton.addEventListener("click", () => {
       timesSpinned += 1;
       const randomSegment = Math.floor(Math.random() * prizes.length) + 1;
@@ -405,8 +466,9 @@
         historyList.appendChild(li);
       });
       
-      // Показываем/скрываем кнопку копирования в зависимости от наличия истории
+      // Показываем/скрываем кнопки копирования в зависимости от наличия истории
       copyHistoryButton.style.display = history.length > 0 ? 'block' : 'none';
+      copyClassnamesButton.style.display = history.length > 0 ? 'block' : 'none';
     }
   </script>
 </body>
